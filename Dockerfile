@@ -18,8 +18,17 @@ ENV IPTABLES_MASQ=1
 # Следите за изменениями в файлах конфигурации интерфейса (по умолчанию отключено)
 ENV WATCH_CHANGES=0
 
-# LAN интерфейс хостовой машины
-ENV PHYSICAL_INTERFACE_LAN=enp1s2
+# Интерфейс 1 хостовой машины
+ENV PHYSICAL_INTERFACE_1=enp1s2
+
+# Интерфейс 2 хостовой машины
+ENV PHYSICAL_INTERFACE_2=enp2s2
+
+# LAN 1 подсеть хостовой машины
+ENV PHYSICAL_LAN_1=192.168.1.0/24
+
+# LAN 2 подсеть хостовой машины
+ENV PHYSICAL_LAN_2=192.168.0.0/24
 
 EXPOSE 5555/udp
 
