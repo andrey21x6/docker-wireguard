@@ -1,0 +1,1 @@
+docker run -d --cap-add net_admin --cap-add sys_module -v /root/Docker/wireguard-docker-main/wireguard_conf:/etc/wireguard -p 5555:5555/udp cmulk/wireguard-docker:buster
