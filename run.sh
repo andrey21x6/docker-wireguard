@@ -6,11 +6,13 @@
 
 interfaces=`find /etc/wireguard -type f`
 if [ -z $interfaces ]; then
+    echo "$(date): Interface not found in /etc/wireguard" >&2
     exit 1
 fi
 
 start_interfaces() {
     for interface in $interfaces; do
+        echo "$(date): Starting Wireguard $interface"
         wg-quick up $interface
     done
 }
@@ -26,19 +28,16 @@ start_interfaces
 # Добавить правило маскировки для NAT-трафика VPN, направляемого в Интернет
 
 if [ $IPTABLES_MASQ -eq 1 ]; then
-    iptables -t nat -A POSTROUTING -d $PHYSICAL_LAN_1 -o $PHYSICAL_INTERFACE_1 -j MASQUERADE
-	iptables -t nat -A POSTROUTING -d $PHYSICAL_LAN_1 -o $PHYSICAL_INTERFACE_2 -j MASQUERADE
-	iptables -A FORWARD -i wg0 -j ACCEPT
+    echo "Adding iptables NAT rule"
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 fi
 
 # Обработка поведения при выключении
-
 finish () {
+    echo "$(date): Shutting down Wireguard"
     stop_interfaces
     if [ $IPTABLES_MASQ -eq 1 ]; then
-        iptables -t nat -D POSTROUTING -d $PHYSICAL_LAN_1 -o $PHYSICAL_INTERFACE_1 -j MASQUERADE
-		iptables -t nat -D POSTROUTING -d $PHYSICAL_LAN_1 -o $PHYSICAL_INTERFACE_2 -j MASQUERADE
-		iptables -D FORWARD -i wg0 -j ACCEPT
+        iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
     fi
 
     exit 0

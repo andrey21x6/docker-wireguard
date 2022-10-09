@@ -1,2 +1,2 @@
 # docker-wireguard
-Оригинал: https://github.com/cmulk/wireguard-docker
+Оригинал: https://github.com/activeeos/wireguard-docker

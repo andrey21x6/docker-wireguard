@@ -1,1 +1,2 @@
-docker run -d --cap-add net_admin --cap-add sys_module -v $(pwd)/wireguard_conf:/etc/wireguard -p 5555:5555/udp cmulk/wireguard-docker:buster
+docker build -t wireguard . && docker run -d --name wireguard --cap-add net_admin --cap-add sys_module -v $(pwd)/wireguard_conf:/etc/wireguard -p 5555:5555/udp wireguard
+docker stop wireguard && docker rm wireguard && docker rmi wireguard
