@@ -1,2 +1,8 @@
-docker build -t wireguard . && docker run -d --name wireguard --cap-add net_admin --cap-add sys_module -v $(pwd)/wireguard_conf:/etc/wireguard -p 5555:5555/udp wireguard
+docker build -t wireguard . && docker run -d --name wireguard --cap-add net_admin -v $(pwd)/wireguard_conf:/etc/wireguard -p 5555:5555/udp wireguard
 docker stop wireguard && docker rm wireguard && docker rmi wireguard
+
+docker build -t wireguard-lite -f Dockerfile_lite . && docker run -d --name wireguard-lite -v $(pwd)/wireguard_conf:/etc/wireguard -p 5555:5555/udp wireguard-lite
+docker stop wireguard-lite && docker rm wireguard-lite && docker rmi wireguard-lite
+
+# В каталоге, где будет запускаться Docker, нужно, что была папка wireguard_conf с файлом конфига Wireguard wg0.conf
+docker run -d --name wireguard-lite --cap-add net_admin -v $(pwd)/wireguard_conf:/etc/wireguard -p 5555:5555/udp andrey21x6/wireguard-lite:1.0

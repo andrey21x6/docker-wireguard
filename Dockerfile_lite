@@ -1,0 +1,18 @@
+FROM debian:buster
+
+RUN echo "deb http://deb.debian.org/debian/ buster-backports main" > /etc/apt/sources.list.d/buster-backports.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends wireguard-tools iptables net-tools && \
+    apt-get clean
+
+WORKDIR /scripts
+
+ENV PATH="/scripts:${PATH}"
+
+COPY run_lite.sh .
+
+RUN chmod 755 ./*
+
+EXPOSE 5555/udp
+
+ENTRYPOINT ["run_lite.sh"]
