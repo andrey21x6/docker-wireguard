@@ -3,7 +3,7 @@ FROM debian:buster
 # Добавить репозиторий debian backports для пакетов wireguard и Установить пакеты wireguard
 RUN echo "deb http://deb.debian.org/debian/ buster-backports main" > /etc/apt/sources.list.d/buster-backports.list && \
     apt-get update && \
-    apt-get install -y --no-install-recommends wireguard-tools iptables net-tools procps openresolv inotify-tools && \
+    apt-get install -y --no-install-recommends wireguard-tools iptables net-tools && \
     apt-get clean
 
 # Задаёт текущую директорию в контейнере
@@ -19,10 +19,10 @@ ENV IPTABLES_MASQ=1
 ENV WATCH_CHANGES=0
 
 # Копирование файла из текущей папки в контейнер
-COPY run.sh /scripts
+COPY run.sh .
 
 # Выставить права на каталог
-RUN chmod 755 /scripts/*
+RUN chmod 755 ./*
 
 EXPOSE 5555/udp
 
